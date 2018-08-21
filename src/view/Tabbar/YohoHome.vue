@@ -1,7 +1,7 @@
 <template>
     <div class="home-view">
+        <search-bar :flag="searchColor"></search-bar>
         <vue-put-to class="home-scroll-view" :top-load-method="refresh" :top-config="reduction">
-            <search-bar :flag="searchColor"></search-bar>
             <div class="swiper-box">
                 <Swipe :auto="4000" :speed="600">
                     <SwipeItem v-for="(item, index) in banner" :key="item.ban_id">
@@ -10,7 +10,7 @@
                 </Swipe>
             </div>
             <div class="context-box">
-                <div class="content-box-header">热门分类<router-link to="/goods">More</router-link></div>
+                <div class="content-box-header">热门分类<router-link to="/cate">More</router-link></div>
                 <div class="hot-tab-box" v-for="(item, index) in cate" :key="item.class_yoho_id" :style="{backgroundImage: 'url(' + item.class_icon + '!_140X140)' }" :data-type="item.class_yoho_id" @click="toGoodsList">{{item.class_name}}</div>
             </div>
             <div class="context-box" v-for="(item, index) in brand" :key="item.brand_code">

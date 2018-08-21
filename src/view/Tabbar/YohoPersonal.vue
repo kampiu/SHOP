@@ -9,9 +9,17 @@
                     <div class="personal-acount">{{acount}}</div>
                 </div>
             </div>
+            <div class="personal-menu">我的订单<router-link to="/order">全部订单</router-link></div>
+            <div class="personal-order">
+                <div class="personal-nav pendding-pay">待付款</div>
+                <div class="personal-nav pendding-send">待发货</div>
+                <div class="personal-nav pendding-copy">待收货</div>
+                <div class="personal-nav pendding-comment">待评价</div>
+                <div class="personal-nav pendding-appeal">退/换货</div>
+            </div>
             <div class="personal-list">
                 <div class="personal-item wall_icon">钱包</div>
-                <div class="personal-item collect_icon">收藏</div>
+                <router-link to="/collect" class="personal-item collect_icon">收藏</router-link>
                 <router-link to="/coupon" class="personal-item coupons_icon">优惠券</router-link>
                 <router-link to="/address" class="personal-item location_icon">收货地址</router-link>
             </div>
@@ -21,7 +29,88 @@
         </vue-put-to>
     </div>
 </template>
-
+<style>
+    .personal-menu{
+        width:100vw;
+        height:36px;
+        margin-top: 10px;
+        background:#FFF;
+        display:flex;
+        align-items: center;
+        justify-content: space-between;
+        padding:10px 2.5vw;
+        font-weight: 550;
+        border-bottom:1px solid #EDEDED;
+    }
+    .personal-menu a{
+        display: inline-block;
+        width:auto;
+        height:20px;
+        padding-right:14px;
+        position:relative;
+        font-weight: 500;
+    }
+    
+    .personal-menu a::before{
+        content: "";
+        position: absolute;
+        right: 0px;
+        top: 4px;
+        width: 8px;
+        height: 8px;
+        display: inline-block;
+        border-bottom: .533333vw solid #DDDDDD;
+        border-left: .533333vw solid #DDDDDD;
+        transform: rotate(-135deg);
+    }
+    .personal-order{
+        width:100vw;
+        background:#FFF;
+        display:flex;
+        align-items: center;
+        padding:2px 2.5vw;
+    }
+    .personal-nav{
+        width:19vw;
+        height:16vw;
+        display:flex;
+        font-size: 0.22rem;
+        font-weight: 550;
+        color:#333;
+        justify-content: center;
+        padding-top:8vw;
+        align-items: center;
+        position:relative;
+    }
+    .personal-nav::before{
+        content: "";
+        width:26px;
+        height:26px;
+        position:absolute;
+        left:50%;
+        top:50%;
+        display:inline-block;
+        background-size: 100% auto;
+        background-position:center center;
+        background-repeat: no-repeat;
+        transform: translate(-50%, -80%);
+    }
+    .pendding-pay::before{
+        background-image: url("../../assets/pendingPay.png");
+    }
+    .pendding-send::before{
+        background-image: url("../../assets/pendingSend.png");
+    }
+    .pendding-copy::before{
+        background-image: url("../../assets/pendingCopy.png");
+    }
+    .pendding-comment::before{
+        background-image: url("../../assets/pendingComment.png");
+    }
+    .pendding-appeal::before{
+        background-image: url("../../assets/pendingAppeal.png");
+    }
+</style>
 <script>
     import TieltBar from '@/components/TitleBar'
     import vuePutTo from 'vue-pull-to'
@@ -117,7 +206,7 @@
     .personal-list {
         width: 100%;
         overflow: hidden;
-        margin-top: 16px;
+        margin-top: 10px;
         padding-left: 20px;
         background: #FFF;
     }

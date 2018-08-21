@@ -20,13 +20,15 @@
                 {{word == "" ? "" : '搜索：' + word}}
             </div>
             <div class="search-result-content" @click="cancel">
-
+                <collect-item v-for="(item, index) in result" :key="'searchItem' + item.pro_code_bar" :data="item"></collect-item>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import CollectItem from "@/components/CollectItem"
+    import { Lazyload } from 'mint-ui'
     import API from '@/util/api'
 
     export default {
@@ -45,7 +47,7 @@
             }
         },
         components: {
-
+            CollectItem
         },
         created() {
 
@@ -68,8 +70,7 @@
                 }
             },
             toggleBar() {
-                console.log(this.$parent.$parent.$parent.$parent.$refs.drawer)
-                this.$parent.$parent.$parent.$parent.$refs.drawer.toggle()
+                this.$parent.$parent.$parent.$refs.drawer.toggle()
             },
             focus(e) {
                 this.isFocus = true
@@ -95,6 +96,9 @@
             getResult() {
                 this.$ajax(API.getSearch(this.word)).then(e => {
                     console.log("search", e)
+                    if(e.code === 200){
+                        this.result = e.result    
+                    }
                 }).catch(err => {
                     console.log("搜索出错", err)
                 })
@@ -251,7 +255,7 @@
         position: absolute;
         left: 0;
         top: 0;
-        z-index: 50;
+        z-index: 1200;
         background: #FFF;
         opacity: 0;
         display: none;

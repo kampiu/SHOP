@@ -1,6 +1,8 @@
 <template>
     <div class="cart-view">
-        <tielt-bar title="Cart"></tielt-bar>
+        <div class="title-bar">
+                        购物车
+        </div>
         <vue-put-to class="home-scroll-view" :top-load-method="refresh" :top-config="reduction" :bottom-load-method="loadmore" :bottom-config="loadcart">
             <cart-item v-for="(item, index) in cart" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data="item" @removeCount="removeCount" @addCount="addCount" @priceForm="priceForm"></cart-item>
         </vue-put-to>
@@ -12,6 +14,7 @@
 </template>
 
 <script>
+    import { Toast, CellSwipe, MessageBox } from 'mint-ui'
     import TieltBar from '@/components/TitleBar'
     import CartItem from '@/components/CartItem'
     import vuePutTo from 'vue-pull-to'
@@ -27,18 +30,34 @@
             return {
                 reduction: config.refresh,
                 loadcart: config.loadmore,
-                allPrice: 0
+                allPrice: 0,
+                adrSetItem: [{
+                    content: '删除',
+                    style: {
+                        background: 'red',
+                        color: '#fff',
+                        width: "66px",
+                        textAlign: "center",
+                        lineHeight: "66px"
+                    },
+                    handler: this.remove
+                }]
             }
         },
         components: {
             TieltBar,
             CartItem,
-            vuePutTo
+            vuePutTo,
+            MessageBox,
+            CellSwipe
         },
         created() {
 
         },
         methods: {
+            remove() {
+                console.log(event.target.parentNode.parentNode.parentNode.getAttribute("data-id"))
+            },
             refresh(loaded) {
                 this.initCart(() => {
                     loaded('done')

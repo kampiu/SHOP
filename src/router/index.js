@@ -21,26 +21,32 @@ const YohoGoods = () =>
 	import('@/view/Goods/YohoGoods')
 
 //order-box
+const YohoOrder = () =>
+	import('@/view/Order/YohoOrder')
 
 //address-box
 const YohoAddress = () =>
-	import('@/view/address/addressList')
+	import('@/view/Address/addressList')
 const YohoAddressEdit = () =>
-	import('@/view/address/addressEdit')
+	import('@/view/Address/addressEdit')
 const YohoAddressMap = () =>
-	import('@/view/address/addressMap')
+	import('@/view/Address/addressMap')
 
 //common
 const YohoCoupon = () =>
-	import('@/view/common/YohoCoupon')
+	import('@/view/Common/YohoCoupon')
+const YohoCollect = () =>
+	import('@/view/Common/YohoCollect')
+const YohoSetting = () =>
+	import('@/view/Common/YohoSetting')
 const YohoLogin = () =>
-	import('@/view/common/YohoLogin')
+	import('@/view/Common/YohoLogin')
 const YohoRegister = () =>
-	import('@/view/common/YohoRegister')
+	import('@/view/Common/YohoRegister')
 
 
 export default new Router({
-	mode: 'history',
+	mode: 'hash',
 	routes: [{
 		name: 'index',
 		path: '/',
@@ -99,6 +105,18 @@ export default new Router({
 		path: '/address/map',
 		name: 'YohoAddressMap',
 		component: YohoAddressMap
+	}, {
+		path: '/collect',
+		name: 'YohoCollect',
+		component: YohoCollect
+	}, {
+		path: '/setting',
+		name: 'YohoSetting',
+		component: YohoSetting
+	}, {
+		path: '/order',
+		name: 'YohoOrder',
+		component: YohoOrder
 	}, {
 		path: '*',
 		redirect: '/home'

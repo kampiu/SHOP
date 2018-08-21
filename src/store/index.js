@@ -15,6 +15,7 @@ const Store = new Vuex.Store({
 		brandList: state => state.common.brandList,
 		
 		cart: state => state.cart.cart,
+		collect: state => state.cart.collect,
 		
 		goods: state => state.goods.goods,
 		type: state => state.goods.type,
