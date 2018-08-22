@@ -1,7 +1,9 @@
 <template>
     <div class="goods-item">
         <router-link :to="{name:'YohoGoods',params: {id:data.pro_code_bar}}" class="tabbar-item">
-            <div class="goods-icon" :style="{backgroundImage: 'url(' + data.pro_thumb + '!_400x400)'}" v-lazy="data.pro_thumb + '!_400x400'"></div>
+            <div class="goods-icon">
+                <img v-lazy="data.pro_thumb + '!_400x400'" alt="" />
+            </div>
             <div class="goods-name font-break">{{data.pro_name}}</div>
         </router-link>
         <div class="goods-price">￥{{data.pro_price}}<span class="goods-add-cart"></span></div>
@@ -39,9 +41,13 @@
     .goods-icon {
         width: 47vw;
         height: 64.6vw;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: auto 90%;
+        overflow: hidden;
+    }
+    .goods-icon img{
+        width:auto;
+        height:100%;
+        margin-left:50%;
+        transform: translateX(-50%);
     }
     
     .goods-name,

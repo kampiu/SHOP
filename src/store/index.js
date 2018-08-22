@@ -1,10 +1,11 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import commonStore from '@/store/commonStore'
-import cartStore from '@/store/cartStore'
-import goodsStore from "@/store/goodsStore"
-import userStore from "@/store/userStore"
 import addressStore from "@/store/addressStore"
+import commonStore from '@/store/commonStore'
+import goodsStore from "@/store/goodsStore"
+import orderStore from "@/store/orderStore"
+import cartStore from '@/store/cartStore'
+import userStore from "@/store/userStore"
 
 Vue.use(Vuex)
 
@@ -32,17 +33,21 @@ const Store = new Vuex.Store({
 		acount: state => state.user.acount,
 		
 		userAddress: state => state.address.userAddress,
-		adrSelect: state => state.address.adrSelect
+		adrSelect: state => state.address.adrSelect,
+		
+		orderList: state => state.order.orderList,
+		createOrder: state => state.order.createOrder
 	},
 	mutations: {
 		
 	},
 	modules: {
+		address: addressStore,
 		common: commonStore,
-		cart: cartStore,
 		goods: goodsStore,
-		user: userStore,
-		address: addressStore
+		order: orderStore,
+		cart: cartStore,
+		user: userStore
 	}
 })
 

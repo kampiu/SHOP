@@ -58,6 +58,7 @@
         align-items: flex-start;
         justify-content: space-between;
         flex-direction: column;
+        background:#F8F8F8;
     }
     
     .search-item-context>div {

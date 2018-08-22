@@ -28,6 +28,7 @@
 
 <script>
     import CollectItem from "@/components/CollectItem"
+    import { debounce, throttle } from "@/util/common"
     import { Lazyload } from 'mint-ui'
     import API from '@/util/api'
 
@@ -43,7 +44,8 @@
                 isFocus: false,
                 isShowList: false,
                 word: "",
-                result: []
+                result: [],
+                time:null
             }
         },
         components: {
@@ -53,22 +55,6 @@
 
         },
         methods: {
-            toplay(song) {
-                let songs = this.dataForm(song)
-            },
-            addSong(song) {
-                let songs = this.dataForm(song)
-            },
-            dataForm(song) {
-                return {
-                    id: song.id,
-                    name: song.name,
-                    singer: song.artists[0].name,
-                    albumPic: song.album.artist.img1v1Url,
-                    songUrl: '',
-                    album: song.album.name
-                }
-            },
             toggleBar() {
                 this.$parent.$parent.$parent.$refs.drawer.toggle()
             },
@@ -86,18 +72,21 @@
                 document.getElementById("search").value = ""
             },
             write(e) {
-                this.word = (e.target.value).replace(" ", "")
-                if(this.word !== "") {
-                    this.getResult()
+                this.word = (event.target.value).replace(" ", "")
+                if(this.word !== "" && !this.time) {
+                    this.time = setTimeout(() => {
+                        this.getResult()
+                        clearTimeout(this.time)
+                        this.time = null
+                    },600)
                 } else {
                     this.result = []
                 }
             },
             getResult() {
                 this.$ajax(API.getSearch(this.word)).then(e => {
-                    console.log("search", e)
-                    if(e.code === 200){
-                        this.result = e.result    
+                    if(e.code === 200) {
+                        this.result = e.result
                     }
                 }).catch(err => {
                     console.log("搜索出错", err)
@@ -105,6 +94,7 @@
             }
         },
         activated() {
+            this.time = null
             this.isFocus = false
             this.isShowList = false
             this.word = ""

@@ -21,8 +21,10 @@ const YohoGoods = () =>
 	import('@/view/Goods/YohoGoods')
 
 //order-box
-const YohoOrder = () =>
-	import('@/view/Order/YohoOrder')
+const YohoOrderList = () =>
+	import('@/view/Order/YohoOrderList')
+const YohoOrderInfo = () =>
+	import('@/view/Order/YohoOrderInfo')
 
 //address-box
 const YohoAddress = () =>
@@ -115,8 +117,12 @@ export default new Router({
 		component: YohoSetting
 	}, {
 		path: '/order',
-		name: 'YohoOrder',
-		component: YohoOrder
+		name: 'YohoOrderList',
+		component: YohoOrderList
+	}, {
+		path: '/order/:id',
+		name: 'YohoOrderInfo',
+		component: YohoOrderInfo
 	}, {
 		path: '*',
 		redirect: '/home'
