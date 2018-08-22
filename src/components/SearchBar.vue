@@ -13,7 +13,7 @@
             <div :class="isFocus ? 'search-cancel search-cancel-active' : 'search-cancel'" @click="cancelBybtn">取消</div>
         </div>
         <div :class="isFocus ? 'search-bar-nav search-bar-hide' : 'search-bar-nav'">
-            <router-link to="/city" class="location"></router-link>
+            <div @click="scanQRCode" class="location"></div>
         </div>
         <div :class="isFocus ? 'search-list search-list-active' : 'search-list'">
             <div class="search-tip">
@@ -31,6 +31,9 @@
     import { debounce, throttle } from "@/util/common"
     import { Lazyload } from 'mint-ui'
     import API from '@/util/api'
+    import {
+        mapGetters
+    } from 'vuex'
 
     export default {
         props: {
@@ -45,16 +48,24 @@
                 isShowList: false,
                 word: "",
                 result: [],
-                time:null
+                time: null
             }
         },
         components: {
             CollectItem
         },
-        created() {
-
-        },
         methods: {
+            scanQRCode() {
+                wx.ready(() => {
+                    wx.scanQRCode({
+                        needResult: 1, 
+                        scanType: ["qrCode", "barCode"], 
+                        success:(res) => {
+                            console.log(res)
+                        }
+                    })
+                })
+            },
             toggleBar() {
                 this.$parent.$parent.$parent.$refs.drawer.toggle()
             },
@@ -78,7 +89,7 @@
                         this.getResult()
                         clearTimeout(this.time)
                         this.time = null
-                    },600)
+                    }, 600)
                 } else {
                     this.result = []
                 }
@@ -100,8 +111,10 @@
             this.word = ""
             this.result = []
         },
-        filters: {
-
+        computed: {
+            ...mapGetters([
+                'wechat'
+            ])
         }
     }
 </script>

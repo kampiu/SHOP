@@ -14,6 +14,7 @@ const Store = new Vuex.Store({
 		router: state => state.common.router,
 		cate: state => state.common.cate,
 		brandList: state => state.common.brandList,
+		wechat: state => state.common.wechat,
 		
 		cart: state => state.cart.cart,
 		collect: state => state.cart.collect,

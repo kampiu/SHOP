@@ -63,7 +63,7 @@
                         document.cookie += ";token=" + token
                         this.$store.commit("user/getToken", token)
                         this.$store.commit("user/initInfo", info)
-//                      this.$router.go(-1)
+                        this.$router.go(-1)
                     }
                 }).catch(err => {
                     console.log(err)

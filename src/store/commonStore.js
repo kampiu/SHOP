@@ -3,12 +3,16 @@ const commonStore = {
 	state: {
 		router: "home",
 		cate:[],
-		brandList:[]
+		brandList:[],
+		wechat:false
 	},
 	getters: {
 
 	},
 	mutations: {
+		isWeChat(state){
+			state.wechat = true
+		},
 		initBrand(state, list){
 			for(let i = 0,len = list.length;i < len;i++){
 				state.brandList.push(list[i])

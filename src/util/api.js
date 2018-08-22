@@ -1,5 +1,5 @@
-const _baseUrl = "http://localhost:3002/api/"
-//const _baseUrl = "https://api.billson.club/api/"
+//const _baseUrl = "http://localhost:3002/api/"
+const _baseUrl = "https://api.billson.club/api/"
 
 //商品的列表 ->	商品详情
 //购物车的增删查
@@ -51,6 +51,9 @@ const API = {
 	getSearch(word){
 		return `${_baseUrl}yoho/search?word=${word}`
 	},
+	getWxInfo(){
+		return _baseUrl + "wechat/token"
+	},
 	//用户的登录注册
 	login() {
 		return _baseUrl + "user/login"
@@ -82,6 +85,9 @@ const API = {
 	},
 	getInfo() {
 		return _baseUrl + "user/getinfo"
+	},
+	getPhoneCode(){
+		return _baseUrl + "user/code"
 	}
 }
 

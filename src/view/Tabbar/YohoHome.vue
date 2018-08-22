@@ -10,7 +10,9 @@
                 </Swipe>
             </div>
             <div class="context-box">
-                <div class="content-box-header">热门分类<router-link to="/cate">More</router-link></div>
+                <div class="content-box-header">热门分类
+                    <router-link to="/cate">More</router-link>
+                </div>
                 <div class="hot-tab-box" v-for="(item, index) in cate" :key="item.class_yoho_id" :style="{backgroundImage: 'url(' + item.class_icon + '!_140X140)' }" :data-type="item.class_yoho_id" @click="toGoodsList">{{item.class_name}}</div>
             </div>
             <div class="context-box" v-for="(item, index) in brand" :key="item.brand_code">
@@ -60,19 +62,46 @@
         },
         created() {
             this.initData()
+            this.initWX()
         },
         methods: {
-            initData() {
+            initData(callback) {
                 this.$ajax.get(API.getHome()).then(res => {
                     if(res.code === 200) {
                         this.banner = res.result.banner
                         this.cate = res.result.cate
                         this.brand = res.result.brand
                     }
+                    callback && callback()
+                })
+            },
+            initWX() {
+                this.$ajax.get(API.getWxInfo()).then(res => {
+                    if(res.code === 200) {
+                        wx.config({
+                            debug: false,
+                            appId: 'wxc4bba222e1d9cbe3',
+                            timestamp: parseInt(res.result.timestamp),
+                            nonceStr: res.result.noncestr,
+                            signature: res.result.signature,
+                            jsApiList: [
+                                'onMenuShareAppMessage',
+                                'onMenuShareTimeline',
+                                'getLocation',
+                                'scanQRCode',
+                                'openLocation',
+                                'previewImage'
+                            ]
+                        })
+                    }
+                }).catch(err => {
+                    console.log("获取微信出错")
                 })
             },
             refresh(loaded) {
-                loaded('done')
+                initData(() => {
+                    loaded('done')
+                })
             },
             Scroll(e) {
                 let s = document.getElementsByClassName("swiper-box")[0],
@@ -80,9 +109,14 @@
                 document.getElementsByClassName("search-bar")[0].style.backgroundColor = s.getBoundingClientRect().top < -s.getBoundingClientRect().height ? "rgba(32,32,32,0.9)" : "rgba(58,58,58," + (opction) + "%)"
                 this.searchColor = s.getBoundingClientRect().top < -s.getBoundingClientRect().height ? true : false
             },
-            toGoodsList(e){
-                this.$store.commit("goods/setType",e.target.dataset.type)
-                this.$router.push({ name: 'YohoGoodsList', params: { refresh: true }})
+            toGoodsList(e) {
+                this.$store.commit("goods/setType", e.target.dataset.type)
+                this.$router.push({
+                    name: 'YohoGoodsList',
+                    params: {
+                        refresh: true
+                    }
+                })
             }
         },
         activated() {
@@ -168,11 +202,13 @@
         top: 50%;
         transform: translateY(-50%);
     }
-    .content-box-header a{
-        margin-left:auto;
-        margin-right:-12px;
-        color:#666
+    
+    .content-box-header a {
+        margin-left: auto;
+        margin-right: -12px;
+        color: #666
     }
+    
     .hot-tab-box {
         width: 25vw;
         height: 27.5vw;
