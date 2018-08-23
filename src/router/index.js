@@ -26,6 +26,8 @@ const YohoOrderList = () =>
 	import('@/view/Order/YohoOrderList')
 const YohoOrderInfo = () =>
 	import('@/view/Order/YohoOrderInfo')
+const YohoOrderConfirm = () =>
+	import('@/view/order/YohoOrderConfirm')
 
 //address-box
 const YohoAddress = () =>
@@ -205,6 +207,15 @@ const router =  new Router({
 			requireAuth: true
 		}
 	}, {
+		path: '/order/confirm/:id',
+		name: 'YohoOrderConfirm',
+		component: YohoOrderConfirm,
+		meta: {
+			title: "确认下单",
+			description: "SHOP,测试,侵删,Billson - 确认下单",
+			requireAuth: true
+		}
+	}, {
 		path: '*',
 		redirect: '/home'
 	}]
@@ -218,7 +229,7 @@ router.beforeEach((to, from, next) => {
 		document.getElementById("description").setAttribute("content", to.meta.description)
 	}
 	if(to.meta && to.meta.requireAuth) {
-		if(store.getters.token !== "" || localStorage.getItem("eleme_billson_token")) {
+		if(store.getters.token !== "" || localStorage.getItem("yoho_billson_token")) {
 			next()
 		} else {
 			next({

@@ -12,12 +12,21 @@ const orderStore = {
 
 	},
 	mutations: {
-		initOrderList(state, list){
+		initOrderList(state, list) {
 			state.orderList = list
+		},
+		initNewOrder(state, data){
+			state.createOrder.order = [data.order]
+			state.createOrder.code = data.id
 		}
 	},
 	actions: {
-	
+		createNewOrder({
+			state,
+			commit
+		}, data) {
+			commit("initNewOrder", data)
+		}
 	}
 }
 

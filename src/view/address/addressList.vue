@@ -115,7 +115,6 @@
                         })
                     })
                 }).catch(err => {})
-                console.log("删除", event.target.parentNode.parentNode.parentNode.getAttribute("data-id"))
             }
         },
         computed: {

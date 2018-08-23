@@ -1,7 +1,7 @@
 <template>
     <div>
         <drawer-layout ref="drawer" :drawer-width="280" :enable="true" :animatable="true" :z-index="1200" :content-drawable="true" :backdrop="true" :backdrop-opacity-range="[0,0.4]" @mask-click="toggleBar">
-            <div class="drawer-content" slot="drawer">
+            <div class="drawer-content" slot="drawer" style="background-color:#FFF">
                 <div class="slicebar-title">品牌墙</div>
                 <vue-put-to class="slicebar-content" :bottom-load-method="loadmore" :bottom-config="reduction">
                     <li class="brand-nav" v-for="(item, index) in brandList" :key="item.brand_code">

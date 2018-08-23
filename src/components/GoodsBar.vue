@@ -2,8 +2,8 @@
     <div class="goods-bar">
         <router-link to="/cart" class="goods-bar-cart">购物车</router-link>
         <div class="goods-bar-brand">牌子</div>
-        <div class="goods-bar-collect">收藏</div>
-        <div class="goods-bar-buy" @click="actionSheet">立即购买</div>
+        <router-link to="/collect" class="goods-bar-collect">收藏</router-link>
+        <div class="goods-bar-buy" @click="addCart">立即购买</div>
         <div class="goods-bar-addCart" @click="addCart">加入购物车</div>
     </div>
 </template>

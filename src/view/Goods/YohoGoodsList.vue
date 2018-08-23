@@ -24,10 +24,10 @@
 </template>
 
 <script>
+    import { Lazyload, Indicator, Toast } from 'mint-ui'
     import { DrawerLayout } from 'vue-drawer-layout'
     import GoodsItem from "@/components/GoodsItem"
     import TieltBar from '@/components/TitleBar'
-    import { Lazyload, Indicator, Toast } from 'mint-ui'
     import vuePutTo from 'vue-pull-to'
     import config from '@/util/config'
     import API from '@/util/api'

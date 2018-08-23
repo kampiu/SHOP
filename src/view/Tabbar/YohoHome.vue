@@ -99,7 +99,7 @@
                 })
             },
             refresh(loaded) {
-                initData(() => {
+                this.initData(() => {
                     loaded('done')
                 })
             },

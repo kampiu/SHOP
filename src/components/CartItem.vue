@@ -1,7 +1,7 @@
 <template>
     <div class="cart-item">
         <label>
-            <input type="checkbox" class="cart-checkbox" @change="change" />
+            <input type="checkbox" class="cart-checkbox" @change="change" :checked="data.pro_check" />
             <div class="cart-icon" :style="{backgroundImage:'url(' + data.pro_thumb + '!_400x400)'}"></div>
             <div class="cart-context">
                 <div class="cart-name font-break">{{data.pro_name}}</div>
@@ -21,41 +21,33 @@
 </style>
 
 <script>
-    import { Toast, CellSwipe, MessageBox } from 'mint-ui'
-    
     export default {
         name: "CartItem",
-        props:{
-            data:{
-                type:Object
+        props: {
+            data: {
+                type: Object
+            },
+            index: {
+                type: Number
             }
-        },
-        data() {
-            return {
-
-            }
-        },
-        components: {
-            MessageBox,
-            CellSwipe,
-            Toast
-        },
-        created() {
-        
         },
         methods: {
-            change(){
-                this.$emit("priceForm", this.data.pro_code_bar)
+            change() {
+                this.$emit("checked", this.index)
             },
-            removeCount(){
-                this.$emit("removeCount", this.data.pro_code_bar)
+            removeCount() {
+                this.$emit("removeCount", {
+                    id: this.data.pro_code_bar,
+                    sku: this.data.pro_sku,
+                    num: this.data.pro_num
+                })
             },
-            addCount(){
-                this.$emit("addCount", this.data.pro_code_bar)
+            addCount() {
+                this.$emit("addCount", {
+                    id: this.data.pro_code_bar,
+                    sku: this.data.pro_sku
+                })
             }
-        },
-        filters: {
-            
         }
     }
 </script>
@@ -127,13 +119,14 @@
         background-color: #FFF;
     }
     
-    .cart-name {
+    .cart-context .cart-name {
         width: 100%;
         height: 40px;
         line-height: 20px;
         font-weight: 550;
         font-size: 14px;
         overflow: hidden;
+        color: #333;
         -webkit-line-clamp: 2;
     }
     
@@ -143,8 +136,8 @@
         line-height: 24px;
     }
     
-    .cart-attr span{
-        margin-right:6px;
+    .cart-attr span {
+        margin-right: 6px;
     }
     
     .cart-price {

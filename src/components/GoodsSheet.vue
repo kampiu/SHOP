@@ -83,8 +83,11 @@
                 this.$ajax.post(API.addCart(), {
                     order: [data]
                 }).then(res => {
-                    console.log("添加购物车", res)
-                    this.$store.commit("cart/initCart",res.result)
+                    Toast({
+                        message: res.msg,
+                        duration: 1000
+                    })
+                    this.$store.commit("cart/initCart", res.result)
                     this.$emit("toggleSheet")
                 }).catch(err => {
                     console.log("添加购物车失败", err)
@@ -99,12 +102,24 @@
                     return
                 }
                 let data = {
-                    id: this.data.pro_code_bar,
-                    attr: [this.data.pro_sizeTable[this.colorIndex].color, this.data.pro_sizeTable[this.colorIndex].attr[this.sizeIndex].size],
-                    num: this.param.num,
-                    sku: this.data.pro_sizeTable[this.colorIndex].attr[this.sizeIndex].sku
+                    pro_code_bar: this.data.pro_code_bar,
+                    pro_attr: [this.data.pro_sizeTable[this.colorIndex].color, this.data.pro_sizeTable[this.colorIndex].attr[this.sizeIndex].size],
+                    pro_num: this.param.num,
+                    pro_sku: this.data.pro_sizeTable[this.colorIndex].attr[this.sizeIndex].sku,
+                    pro_thumb: this.data.pro_thumb,
+                    pro_name: this.data.pro_name,
+                    pro_price: this.data.pro_price,
+                    pro_brand: this.data.pro_brand
                 }
+                let id = new Date().getTime() + this.crypt(6)
                 console.log(data)
+                this.$store.dispatch("order/createNewOrder",{order:data,id:new Date().getTime() + this.crypt(6)})
+                this.$router.push({
+                    name: "YohoOrderConfirm",
+                    params: {
+                        id: id
+                    }
+                })
             },
             acionSheet() {
                 this.$emit("toggleSheet")
@@ -113,7 +128,6 @@
                 this.colorIndex = parseInt(e.target.dataset.index)
             },
             setSize(e) {
-                console.log(this.sizeIndex, parseInt(e.target.dataset.index))
                 this.sizeIndex = parseInt(e.target.dataset.index)
             },
             removeCount() {
@@ -121,7 +135,29 @@
             },
             addCount() {
                 this.param.num++
+            },
+            rand(min, max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min
+            },
+            crypt(num) {
+                let len = num,
+                    str = "0123456789",
+                    result = ""
+                while(len--) {
+                    result += str[this.rand(0, str.length - 1)]
+                }
+                return result
             }
+        },
+        activated() {
+            this.param = {
+                sku: null,
+                id: null,
+                num: 1,
+                attr: []
+            }
+            this.colorIndex = null
+            this.sizeIndex = null
         },
         filters: {
 
@@ -271,6 +307,8 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+        flex-wrap: wrap;
+        padding-top: 10px;
     }
     
     .goods-sheet-item-context span {
@@ -280,10 +318,11 @@
         border: 1px solid #333;
         border-radius: 6px;
         display: inline-block;
-        padding: 0 8px;
+        padding: 0 10px;
         line-height: 30px;
         text-align: center;
         margin-right: 4vw;
+        margin-bottom: 10px;
     }
     
     .goods-sheet-item-context .active-select-tab {

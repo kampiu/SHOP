@@ -1,5 +1,5 @@
-//const _baseUrl = "http://localhost:3002/api/"
-const _baseUrl = "https://api.billson.club/api/"
+const _baseUrl = "http://localhost:3002/api/"
+//const _baseUrl = "https://api.billson.club/api/"
 
 //商品的列表 ->	商品详情
 //购物车的增删查
