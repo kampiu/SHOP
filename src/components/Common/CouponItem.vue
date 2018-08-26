@@ -7,7 +7,7 @@
         <div class="coupon-context">
             <div class="coupon-context-info"><span>{{data.brand}}</span>{{data.info}}</div>
             <div class="coupon-context-time">{{data.time}} <span @click="useCoupon">立即使用</span></div>
-            <div class="coupon-context-msg">相信信息 <span></span></div>
+            <div class="coupon-context-msg">相关信息 <span></span></div>
         </div>
     </li>
 </template>

@@ -39,9 +39,6 @@
     import vuePutTo from 'vue-pull-to'
     import config from '@/util/config'
     import API from '@/util/api'
-    import {
-        mapGetters
-    } from 'vuex'
 
     export default {
         name: "Goods",
@@ -100,7 +97,6 @@
             getInfo(id, callback) {
                 this.$ajax.get(API.GoodsInfo(id)).then(res => {
                     this.info = res.result
-                    console.log(res, this)
                     callback && callback()
                 }).catch(err => {
                     console.log(err, "获取商品详细信息出错")

@@ -23,6 +23,10 @@
 </style>
 
 <script>
+    import {
+        mapGetters
+    } from 'vuex'
+    
     export default {
         name: "CartItem",
         props: {

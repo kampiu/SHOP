@@ -1,60 +1,62 @@
 <template>
-    <div class="order-confirm-view">
-        <tielt-bar title="确认下单" :back="true"></tielt-bar>
-        <vue-put-to class="order-view-scroll" :top-load-method="refresh" :top-config="scrollConfigTop">
-            <div class="order-address">
-                <router-link to="/address" class="address-box-not" v-if="!address.adr_consignee">+ 添加收货地址</router-link>
-                <div class="address-box" v-if="address.adr_consignee">
-                    <div class="adr-location">收货地址:{{address.adr_location}} {{address.adr_info}}</div>
-                    <div class="adr-consignee">收货人: {{address.adr_consignee}} <span> {{address.adr_caller === 1 ? '先生' : '小姐'}}</span></div>
-                    <div class="adr-btn" @click="toggleSheet" data-sheet="address"></div>
-                </div>
-                <div class="orderinfo-time">立即送出</div>
-            </div>
-            <ul class="order-menu">
-                <li @click="toggleSheet" data-sheet="payment">支付方式
-                    <div data-sheet="payment">{{payment.title}}</div>
-                </li>
-                <li @click="toggleSheet" data-sheet="freight">配送方式
-                    <div data-sheet="freight">{{freight.title}}</div>
-                </li>
-                <li @click="toggleSheet" data-sheet="time">送货时间
-                    <div data-sheet="time">{{time.title}}</div>
-                </li>
-            </ul>
-            <div class="order-goods-list">
-                <div class="order-goods" v-for="(item, index) in goods" :key="item.pro_code_bar + 'sku_' + item.pro_sku">
-                    <div class="order-goods-icon">
-                        <img v-lazy="item.pro_thumb + '!_400x400'" />
+    <transition name="slide-left">
+        <div class="order-confirm-view">
+            <tielt-bar title="确认下单" :back="true"></tielt-bar>
+            <vue-put-to class="order-view-scroll" :top-load-method="refresh" :top-config="scrollConfigTop">
+                <div class="order-address">
+                    <router-link to="/address" class="address-box-not" v-if="!address.adr_consignee">+ 添加收货地址</router-link>
+                    <div class="address-box" v-if="address.adr_consignee">
+                        <div class="adr-location">收货地址:{{address.adr_location}} {{address.adr_info}}</div>
+                        <div class="adr-consignee">收货人: {{address.adr_consignee}} <span> {{address.adr_caller === 1 ? '先生' : '小姐'}}</span></div>
+                        <div class="adr-btn" @click="toggleSheet" data-sheet="address"></div>
                     </div>
-                    <div class="order-goods-info">
-                        <div class="order-goods-name font-break">{{item.pro_name}}</div>
-                        <div class="order-goods-attr">{{item.pro_brand}}</div>
-                        <div class="order-goods-price">￥{{item.pro_price}}<span class="search-collect">x{{item.pro_num}}</span></div>
-                    </div>
+                    <div class="orderinfo-time">立即送出</div>
                 </div>
-            </div>
-            <div class="nav-list">
-                <div class="orderconfirm-nav-item">
-                    <div @click="toggleSheet" data-sheet="coupons">
-                        优惠券
-                        <div class="coupon-tip" data-sheet="coupons">-￥{{coupon.price}}</div>
+                <ul class="order-menu">
+                    <li @click="toggleSheet" data-sheet="payment">支付方式
+                        <div data-sheet="payment">{{payment.title}}</div>
+                    </li>
+                    <li @click="toggleSheet" data-sheet="freight">配送方式
+                        <div data-sheet="freight">{{freight.title}}</div>
+                    </li>
+                    <li @click="toggleSheet" data-sheet="time">送货时间
+                        <div data-sheet="time">{{time.title}}</div>
+                    </li>
+                </ul>
+                <div class="order-goods-list">
+                    <div class="order-goods" v-for="(item, index) in goods" :key="item.pro_code_bar + 'sku_' + item.pro_sku">
+                        <router-link :to="{name: 'YohoGoods',params:{id:item.pro_code_bar}}" class="order-goods-icon">
+                            <img v-lazy="item.pro_thumb + '!_400x400'" />
+                        </router-link>
+                        <div class="order-goods-info">
+                            <div class="order-goods-name font-break">{{item.pro_name}}</div>
+                            <div class="order-goods-attr"><span v-for="(_item, _index) in item.pro_attr" :key="_item">{{_item}}</span></div>
+                            <div class="order-goods-price">￥{{item.pro_price}}<span class="search-collect">x{{item.pro_num}}</span></div>
+                        </div>
                     </div>
                 </div>
-                <nav-item :data="item" v-for="(item, index) in navList" :key="item.id"></nav-item>
+                <div class="nav-list">
+                    <div class="orderconfirm-nav-item">
+                        <div @click="toggleSheet" data-sheet="coupons">
+                            优惠券
+                            <div class="coupon-tip" data-sheet="coupons">-￥{{coupon.price}}</div>
+                        </div>
+                    </div>
+                    <nav-item :data="item" v-for="(item, index) in navList" :key="item.id"></nav-item>
+                </div>
+            </vue-put-to>
+            <div id="order-confirm-bar">你需要支付：<span>￥{{formPrice}}</span>
+                <div @click="payForm">结 算</div>
             </div>
-        </vue-put-to>
-        <div id="order-confirm-bar">你需要支付：<span>￥{{formPrice}}</span>
-            <div @click="payForm">结 算</div>
+            <sheet :show="showSheet" @toggle="toggleSheet" :title="sheetTitle">
+                <coupon-item v-for="(item, index) in coupons" :key="item.id + 'couponput'" :index="index" @selectCoupon="selectCoupon" :couponId="coupon.id" :data="item" v-if="sheetTarget === 'coupons'"></coupon-item>
+                <address-item v-for="(item, index) in userAddress" :key="item.adr_id + 'adrput'" :data="item" :index="index" @selectAddress="setAddress" :adrId="address.adr_id" v-if="sheetTarget === 'address'"></address-item>
+                <payment-item v-for="(item, index) in paymentList" :key="item.id + 'payput'" :data="item" :index="index" @selectPay="selectPay" :payId="payment.id" v-if="sheetTarget === 'payment'"></payment-item>
+                <freight-item v-for="(item, index) in freightList" :key="item.id + 'freightput'" :data="item" :index="index" @selectFreight="selectFreight" :freId="freight.id" v-if="sheetTarget === 'freight'"></freight-item>
+                <time-item v-for="(item, index) in timeList" :key="item.id + 'timeput'" :data="item" :index="index" @selectTime="selectTime" :timeId="time.id" v-if="sheetTarget === 'time'"></time-item>
+            </sheet>
         </div>
-        <sheet :show="showSheet" @toggle="toggleSheet" :title="sheetTitle">
-            <coupon-item v-for="(item, index) in coupons" :key="item.id + 'couponput'" :index="index" @selectCoupon="selectCoupon" :couponId="coupon.id" :data="item" v-if="sheetTarget === 'coupons'"></coupon-item>
-            <address-item v-for="(item, index) in userAddress" :key="item.adr_id + 'adrput'" :data="item" :index="index" @selectAddress="setAddress" :adrId="address.adr_id" v-if="sheetTarget === 'address'"></address-item>
-            <payment-item v-for="(item, index) in paymentList" :key="item.id + 'payput'" :data="item" :index="index" @selectPay="selectPay" :payId="payment.id" v-if="sheetTarget === 'payment'"></payment-item>
-            <freight-item v-for="(item, index) in freightList" :key="item.id + 'freightput'" :data="item" :index="index" @selectFreight="selectFreight" :freId="freight.id" v-if="sheetTarget === 'freight'"></freight-item>
-            <time-item v-for="(item, index) in timeList" :key="item.id + 'timeput'" :data="item" :index="index" @selectTime="selectTime" :timeId="time.id" v-if="sheetTarget === 'time'"></time-item>
-        </sheet>
-    </div>
+    </transition>
 </template>
 <style>
 
@@ -225,37 +227,37 @@
             toHome() {
                 window.history.go(-1)
             },
-            payForm(){
+            payForm() {
                 let data = {
                     adrId: this.address.adr_id,
-                    order:[]
+                    order: []
                 }
-                for(let i = 0,len = this.goods.length;i < len;i++){
+                for(let i = 0, len = this.goods.length; i < len; i++) {
                     data.order.push({
-                        id:this.goods[i].pro_code_bar,
-                        attr:this.goods[i].pro_attr,
-                        num:this.goods[i].pro_num,
+                        id: this.goods[i].pro_code_bar,
+                        attr: this.goods[i].pro_attr,
+                        num: this.goods[i].pro_num,
                         pro_cart: this.goods[i].pro_cart ? this.goods[i].pro_cart : 0,
                     })
                 }
-                this.$ajax.post(API.addOrder(),data).then(res => {
-                    if(res.code === 200){
+                this.$ajax.post(API.addOrder(), data).then(res => {
+                    if(res.code === 200) {
                         this.$store.commit("order/cartHandleRefresh")
-                        this.$store.commit("order/addOrder",res.data)
+                        this.$store.commit("order/addOrder", res.data)
                         this.$router.replace({
                             name: "YohoOrderInfo",
-                            params:{
-                                id:res.data.orderCode
+                            params: {
+                                id: res.data.orderCode
                             }
                         })
-                    }else{
+                    } else {
                         Toast({
                             message: res.msg,
                             duration: 800
                         })
                     }
                 }).catch(err => {
-                    console.log("下单失败",err)
+                    console.log("下单失败", err)
                 })
             }
         },
@@ -265,9 +267,9 @@
                 'userAddress',
                 'coupons'
             ]),
-            formPrice(){
+            formPrice() {
                 let price = 0
-                for(let i = 0,len = this.goods.length;i < len;i++){
+                for(let i = 0, len = this.goods.length; i < len; i++) {
                     price += parseFloat(this.goods[i].pro_price) * parseFloat(this.goods[i].pro_num)
                 }
                 return price

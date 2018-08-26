@@ -183,11 +183,12 @@
         padding-bottom: 50px;
     }
     
-    .slicebar-content {
+    .drawer-content .slicebar-content {
         width: 100%;
         height: 100vh !important;
         padding-top: 50px;
         background: #FFF;
+        padding-bottom:0 !important;
     }
     
     .brand-nav {

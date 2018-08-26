@@ -54,6 +54,9 @@ const API = {
 	getWxInfo(){
 		return _baseUrl + "wechat/token"
 	},
+	getOrderInfo(){
+		return _baseUrl + "yoho/orderinfo"
+	},
 	//用户的登录注册
 	login() {
 		return _baseUrl + "user/login"

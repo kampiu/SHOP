@@ -2,7 +2,7 @@
     <div class="order-item">
         <router-link class="order-item-header" :to="{name: 'YohoOrderInfo',params:{id:data.orderCode}}">订单编号: {{data.orderCode}} <span>{{data.orderState | stateForm}}</span></router-link>
         <div class="order-item-list">
-            <div class="order-goods" v-for="(item, index) in data.orderList" :key="'orderlist' + data.orderCode + '_' + item.pro_code_bar + '_' + item.pro_sku">
+            <div class="order-goods" v-for="(item, index) in data.orderList" :key="'orderlist' + data.orderCode + '_' + item.pro_code_bar + '_' + item.pro_sku" v-if="index < 3">
                 <router-link :to="{name: 'YohoGoods',params:{id:item.pro_code_bar}}" class="order-goods-icon">
                     <img v-lazy="item.pro_thumb + '!_140X140'" alt="" />
                 </router-link>

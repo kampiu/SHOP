@@ -2,10 +2,9 @@
     <div class="cart-view">
         <div class="title-bar">购物车</div>
         <vue-put-to class="home-scroll-view" :top-load-method="refresh" :top-config="reduction" :bottom-load-method="loadmore" :bottom-config="loadcart">
-            <cell-swipe :right="adrSetItem" v-for="(item, index) in cart" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data-id="item.pro_code_bar" :data-sku="item.pro_sku">
+            <CellSwipe :right="adrSetItem" v-for="(item, index) in cartList" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data-id="item.pro_code_bar" :data-sku="item.pro_sku">
                 <cart-item :data="item" @removeCount="removeCount" @addCount="addCount" @checked="checked" :index="index"></cart-item>
-            </cell-swipe>
-            <!--<cart-item v-for="(item, index) in cart" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data="item" @removeCount="removeCount" @addCount="addCount" @checked="checked" :index="index"></cart-item>-->
+            </CellSwipe>
         </vue-put-to>
         <div class="cart-bar">
             <label>
@@ -41,7 +40,8 @@
                 adrSetItem: [{
                     content: '移除',
                     handler: this.remove
-                }]
+                }],
+                cartList: []
             }
         },
         components: {
@@ -133,6 +133,7 @@
                     Indicator.close()
                 })
             }
+            this.cartList = this.cart
         },
         computed: {
             ...mapGetters([
@@ -142,6 +143,14 @@
                 'allCheck',
                 'cart'
             ])
+        },
+        watch: {
+            cart(to, from) {
+                if(this.$route.name === "YohoCart"){
+                    this.cartList = to
+                    console.log(to, "asdas")
+                }
+            }
         },
         filters: {
 
