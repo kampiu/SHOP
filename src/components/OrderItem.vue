@@ -3,9 +3,9 @@
         <router-link class="order-item-header" :to="{name: 'YohoOrderInfo',params:{id:data.orderCode}}">订单编号: {{data.orderCode}} <span>{{data.orderState | stateForm}}</span></router-link>
         <div class="order-item-list">
             <div class="order-goods" v-for="(item, index) in data.orderList" :key="'orderlist' + data.orderCode + '_' + item.pro_code_bar + '_' + item.pro_sku">
-                <div class="order-goods-icon">
+                <router-link :to="{name: 'YohoGoods',params:{id:item.pro_code_bar}}" class="order-goods-icon">
                     <img v-lazy="item.pro_thumb + '!_140X140'" alt="" />
-                </div>
+                </router-link>
                 <router-link :to="{name: 'YohoOrderInfo',params:{id:data.orderCode}}" class="order-goods-context">
                     <div class="order-goods-name">{{item.pro_name}}</div>
                     <div class="order-goods-price">￥{{item.pro_price | moneyForm}}</div>
@@ -39,10 +39,12 @@
 
         },
         created() {
-
+            this.init()
         },
         methods: {
-
+            init(){
+                console.log(this.data)
+            }
         },
         filters: {
             stateForm(val){

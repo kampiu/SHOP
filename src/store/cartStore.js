@@ -21,6 +21,8 @@ const commonStore = {
 				list[i].pro_check = false
 				state.cart.push(list[i])
 			}
+			state.allCheck = false
+			state.cartCount = 0
 			state.cartPrice = 0
 		},
 		checkedCart(state, index) {

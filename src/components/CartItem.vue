@@ -2,7 +2,9 @@
     <div class="cart-item">
         <label>
             <input type="checkbox" class="cart-checkbox" @change="change" :checked="data.pro_check" />
-            <div class="cart-icon" :style="{backgroundImage:'url(' + data.pro_thumb + '!_400x400)'}"></div>
+            <div class="cart-icon">
+                <img v-lazy="data.pro_thumb + '!_400x400'" alt="" />
+            </div>
             <div class="cart-context">
                 <div class="cart-name font-break">{{data.pro_name}}</div>
                 <div class="cart-attr"><span v-for="(item, index) in data.pro_attr" :key="item">{{item}}</span></div>
@@ -70,10 +72,15 @@
     .cart-icon {
         width: 90px;
         height: 118px;
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: 90px auto;
+        padding:10px;
         flex: 0 0 auto;
+        overflow: hidden;
+    }
+    .cart-icon > img{
+        height:100%;
+        width:auto;
+        margin-left:50%;
+        transform: translateX(-50%);
     }
     
     .cart-context {

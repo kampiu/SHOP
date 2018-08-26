@@ -6,18 +6,38 @@ const orderStore = {
 	namespaced: true,
 	state: {
 		orderList: [],
-		createOrder: {}
+		createOrder: {},
+		cartRefresh:false
 	},
 	getters: {
 
 	},
 	mutations: {
+		cartHandleRefresh(state){
+			state.cartRefresh = !state.cartRefresh
+		},
 		initOrderList(state, list) {
 			state.orderList = list
 		},
+		addOrder(state, data){
+			state.orderList.push(data)
+			state.createOrder = {}
+			try{
+				localStorage.removeItem("yoho_order_confirm")
+			}catch(e){
+				
+			}
+		},
 		initNewOrder(state, data){
-			state.createOrder.order = [data.order]
-			state.createOrder.code = data.id
+			localStorage.setItem("yoho_order_confirm", JSON.stringify(data))
+			state.createOrder.order = data.order
+		},
+		getNewOrder(state){
+			try{
+				state.createOrder = localStorage.getItem("yoho_order_confirm") ? JSON.parse(localStorage.getItem("yoho_order_confirm")) : {}
+			}catch(e){
+				state.createOrder = {}
+			}
 		}
 	},
 	actions: {

@@ -1,10 +1,12 @@
 <template>
-    <div class="order-view">
-        <tielt-bar title="订单" :back="true"></tielt-bar>
-        <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop" style="background-color:#F0F0F0">
-            <order-item v-for="(item, index) in orderList" :key="item.orderCode" :data="item"></order-item>
-        </vue-put-to>
-    </div>
+    <transition name="slide-left">
+        <div class="order-view">
+            <tielt-bar title="订单" :back="true"></tielt-bar>
+            <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop" style="background-color:#F0F0F0">
+                <order-item v-for="(item, index) in orderList" :key="item.orderCode" :data="item"></order-item>
+            </vue-put-to>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -35,16 +37,16 @@
             this.initOrder()
         },
         methods: {
-            initOrder(){
+            initOrder() {
                 Indicator.open('加载中...')
                 this.$ajax.post(API.getOrderList()).then(res => {
-                    console.log("order",res)
-                    if(res.code === 200){
+                    console.log("order", res)
+                    if(res.code === 200) {
                         this.$store.commit("order/initOrderList", res.result)
                     }
                     Indicator.close()
                 }).catch(err => {
-                    console.log("order",err)
+                    console.log("order", err)
                 })
             },
             refresh(loaded) {

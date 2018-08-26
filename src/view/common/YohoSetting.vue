@@ -1,10 +1,12 @@
 <template>
-    <div class="setting-view">
-        <tielt-bar title="设置" :back="true"></tielt-bar>
-        <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
-            
-        </vue-put-to>
-    </div>
+    <transition name="slide-left">
+        <div class="setting-view">
+            <tielt-bar title="设置" :back="true"></tielt-bar>
+            <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
+                
+            </vue-put-to>
+        </div>
+    </transition>
 </template>
 
 <script>

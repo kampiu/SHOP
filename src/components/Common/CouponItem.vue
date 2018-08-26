@@ -1,66 +1,52 @@
 <template>
-    <transition name="slide-left">
-        <div class="personal-view">
-            <tielt-bar title="优惠券" :back="true"></tielt-bar>
-            <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
-                <coupon-item v-for="(item, index) in coupons" :key="item.id" :data="item"></coupon-item>
-                <!--<li v-for="(item, index) in coupons" :key="item.id">
-                    <div class="coupon-nav">
-                        <span class="coupon-price">{{item.price}}</span>
-                        <span>{{item.condition}}</span>
-                    </div>
-                    <div class="coupon-context">
-                        <div class="coupon-context-info"><span>{{item.brand}}</span>{{item.info}}</div>
-                        <div class="coupon-context-time">{{item.time}} <span>立即使用</span></div>
-                        <div class="coupon-context-msg">相信信息 <span></span></div>
-                    </div>
-                </li>-->
-            </vue-put-to>
+    <li class="coupons-item">
+        <div class="coupon-nav">
+            <span class="coupon-price">{{data.price}}</span>
+            <span>{{data.condition}}</span>
         </div>
-    </transition>
+        <div class="coupon-context">
+            <div class="coupon-context-info"><span>{{data.brand}}</span>{{data.info}}</div>
+            <div class="coupon-context-time">{{data.time}} <span @click="useCoupon">立即使用</span></div>
+            <div class="coupon-context-msg">相信信息 <span></span></div>
+        </div>
+    </li>
 </template>
-<style>
 
-</style>
 <script>
-    import TieltBar from '@/components/TitleBar'
-    import CouponItem from '@/components/Common/CouponItem'
-    import vuePutTo from 'vue-pull-to'
-    import config from '@/util/config'
-    import {
-        mapGetters
-    } from 'vuex'
-
     export default {
+        name: "CouponItem",
+        props: {
+            data: {
+                type: Object
+            },
+            index: {
+                type: Number
+            },
+            couponId: {
+                type: Number
+            }
+        },
         data() {
             return {
-                scrollConfigBottom: config.refresh,
-                scrollConfigTop: config.loadmore
+
             }
         },
         components: {
-            CouponItem,
-            vuePutTo,
-            TieltBar
+
         },
         created() {
 
         },
         methods: {
-            refresh(loaded) {
-                loaded('done')
-            },
-            loadmore(loaded) {
-                loaded('done')
-            },
-            toHome() {
-                this.$router.replace("/personal")
+            useCoupon(e) {
+                this.$emit("selectCoupon", {
+                    index: this.index,
+                    id: this.data.id
+                })
             }
         },
-        computed: {
-            ...mapGetters([
-                'coupons'
-            ])
+        activated() {
+
         },
         filters: {
 
@@ -69,20 +55,13 @@
 </script>
 
 <style>
-    .personal-view .order-view-scroll {
-        height: 100vh !important;
-        padding: 0 2vw;
-        background: #F8F8F8;
-    }
-    
-    /*.goods-coupon-context li,
-    .order-view-scroll li {
+    .coupons-item {
         list-style: none;
         height: 1.82rem;
         display: flex;
         align-items: center;
         overflow: hidden;
-        margin-top: 8px;
+        margin: 8px 2vw 0 2vw;
     }
     
     .coupon-nav {
@@ -95,6 +74,24 @@
         justify-content: center;
         flex-direction: column;
         color: #FFF;
+        position: relative;
+    }
+    .coupon-nav::before,.coupon-nav::after{
+        content: "";
+        background:#FFF;
+        border:1px solid #E6E6E6;
+        width:16px;
+        height:16px;
+        border-radius: 50%;
+        position:absolute;
+        left:28vw;
+        z-index: 100;
+    }
+    .coupon-nav::before{
+        top:-8px;
+    }
+    .coupon-nav::after{
+        bottom:-8px;
     }
     
     .coupon-price {
@@ -122,6 +119,9 @@
         align-items: flex-start;
         justify-content: space-between;
         flex-direction: column;
+        border-top: 1px solid #EFEFEF;
+        border-right: 1px solid #EFEFEF;
+        border-bottom: 1px solid #EFEFEF;
     }
     
     .coupon-context::before {
@@ -207,5 +207,5 @@
         border-left: .533333vw solid #fff;
         transform: rotate(-45deg);
         z-index: 300;
-    }*/
+    }
 </style>

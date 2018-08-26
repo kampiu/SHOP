@@ -1,8 +1,8 @@
 <template>
     <div id="app">
-        <keep-alive>
-            <router-view class="index-box"></router-view>
-        </keep-alive>
+            <keep-alive>
+                <router-view class="index-box"></router-view>
+            </keep-alive>
     </div>
 </template>
 
@@ -89,7 +89,43 @@
         border-radius: .3rem;
         background-color: #aaa;
     }
-    .mint-toast{
+    
+    .mint-toast {
         z-index: 8888;
+    }
+    
+    .slide-left-enter-active,
+    .slide-left-leave-active,
+    .slide-right-enter-active,
+    .slide-right-leave-active {
+        will-change: transform;
+        transition: all .3s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+    
+    .slide-right-enter,.slide-right-leave-active{
+        opacity: 0;
+        transform: translate3d(-100%, 0, 0)
+    }
+    
+    .slide-left-enter{
+        opacity: 0;
+        transform: translate3d(100%, 0, 0)
+    }
+    
+    .slide-left-leave-active {
+        opacity: 0;
+        transform: translate3d(100%, 0, 0)
+    }
+    
+    .nodata-icon {
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: 200px auto;
+        background-image: url("./assets/nodata.png");
     }
 </style>

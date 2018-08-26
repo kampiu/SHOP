@@ -1,39 +1,41 @@
 <template>
-    <div>
-        <drawer-layout ref="drawer" :drawer-width="280" :enable="true" :animatable="true" :z-index="1200" :content-drawable="true" :backdrop="true" :backdrop-opacity-range="[0,0.4]" @mask-click="toggleBar">
-            <div class="drawer-content" slot="drawer" style="background-color:#FFF">
-                <div class="slicebar-title">品牌墙</div>
-                <vue-put-to class="slicebar-content" :bottom-load-method="loadmore" :bottom-config="reduction">
-                    <li class="brand-nav" v-for="(item, index) in brandList" :key="item.brand_code">
-                        <img class="brand-nav-icon" v-lazy="item.brand_icon" />{{item.brand_name}}
-                    </li>
-                </vue-put-to>
-            </div>
-            <div slot="content">
-                <keep-alive>
-                    <router-view class="view-box" @toggleBar="toggleBar"></router-view>
-                </keep-alive>
-                <div class="app-tabbar">
-                    <router-link to="/home" class="tabbar-item">
-                        <div :class="router === 'YohoHome' ? 'tabbar-home-active' : 'tabbar-home'"></div>
-                        <span :style="{color: router === 'YohoHome' ? '#414141' : '#B0B0B0'}">首页</span>
-                    </router-link>
-                    <router-link to="/cate" class="tabbar-item">
-                        <div :class="router === 'YohoClassify' ? 'tabbar-cate-active' : 'tabbar-cate'"></div>
-                        <span :style="{color: router === 'YohoClassify' ? '#414141' : '#B0B0B0'}">分类</span>
-                    </router-link>
-                    <router-link to="/cart" class="tabbar-item">
-                        <div :class="router === 'YohoCart' ? 'tabbar-cart-active' : 'tabbar-cart'"></div>
-                        <span :style="{color: router === 'YohoCart' ? '#414141' : '#B0B0B0'}">购物车</span>
-                    </router-link>
-                    <router-link to="/personal" class="tabbar-item">
-                        <div :class="router === 'YohoPersonal' ? 'tabbar-personal-active' : 'tabbar-personal'"></div>
-                        <span :style="{color: router === 'YohoPersonal' ? '#414141' : '#B0B0B0'}">个人</span>
-                    </router-link>
+    <transition name="slide-right">
+        <div>
+            <drawer-layout ref="drawer" :drawer-width="280" :enable="true" :animatable="true" :z-index="1200" :content-drawable="true" :backdrop="true" :backdrop-opacity-range="[0,0.4]" @mask-click="toggleBar">
+                <div class="drawer-content" slot="drawer" style="background-color:#FFF">
+                    <div class="slicebar-title">品牌墙</div>
+                    <vue-put-to class="slicebar-content" :bottom-load-method="loadmore" :bottom-config="reduction">
+                        <li class="brand-nav" v-for="(item, index) in brandList" :key="item.brand_code">
+                            <img class="brand-nav-icon" v-lazy="item.brand_icon" />{{item.brand_name}}
+                        </li>
+                    </vue-put-to>
                 </div>
-            </div>
-        </drawer-layout>
-    </div>
+                <div slot="content">
+                    <keep-alive>
+                        <router-view class="view-box" @toggleBar="toggleBar"></router-view>
+                    </keep-alive>
+                    <div class="app-tabbar">
+                        <router-link to="/home" class="tabbar-item">
+                            <div :class="router === 'YohoHome' ? 'tabbar-home-active' : 'tabbar-home'"></div>
+                            <span :style="{color: router === 'YohoHome' ? '#414141' : '#B0B0B0'}">首页</span>
+                        </router-link>
+                        <router-link to="/cate" class="tabbar-item">
+                            <div :class="router === 'YohoClassify' ? 'tabbar-cate-active' : 'tabbar-cate'"></div>
+                            <span :style="{color: router === 'YohoClassify' ? '#414141' : '#B0B0B0'}">分类</span>
+                        </router-link>
+                        <router-link to="/cart" class="tabbar-item">
+                            <div :class="router === 'YohoCart' ? 'tabbar-cart-active' : 'tabbar-cart'"></div>
+                            <span :style="{color: router === 'YohoCart' ? '#414141' : '#B0B0B0'}">购物车</span>
+                        </router-link>
+                        <router-link to="/personal" class="tabbar-item">
+                            <div :class="router === 'YohoPersonal' ? 'tabbar-personal-active' : 'tabbar-personal'"></div>
+                            <span :style="{color: router === 'YohoPersonal' ? '#414141' : '#B0B0B0'}">个人</span>
+                        </router-link>
+                    </div>
+                </div>
+            </drawer-layout>
+        </div>
+    </transition>
 </template>
 <style>
 

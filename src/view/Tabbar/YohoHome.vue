@@ -56,9 +56,17 @@
         components: {
             SearchBar,
             SwipeItem,
-            Lazyload,
             vuePutTo,
             Swipe
+        },
+        beforeRouteEnter: (to, from, next) => {
+            next(vm => {
+                if(to.meta.isScroll && to.meta.isScroll > 0 && (from.name === "YohoGoods" || from.name === "YohoGoodsList")){
+                    document.getElementsByClassName("home-view")[0].getElementsByClassName("scroll-container")[0].scrollTop = to.meta.isScroll
+                }else{
+                    document.getElementsByClassName("search-bar")[0].style.backgroundColor = `rgba(0,0,0,0)`
+                }
+            })
         },
         created() {
             this.initData()
@@ -120,14 +128,14 @@
             }
         },
         activated() {
-            document.getElementsByClassName("scroll-container")[0].addEventListener("scroll", this.Scroll)
+            document.getElementsByClassName("home-view")[0].getElementsByClassName("scroll-container")[0].addEventListener("scroll", this.Scroll)
         },
         beforeRouteLeave(to, from, next) {
-            document.getElementsByClassName("scroll-container")[0].removeEventListener("scroll", this.Scroll)
+            document.getElementsByClassName("home-view")[0].getElementsByClassName("scroll-container")[0].removeEventListener("scroll", this.Scroll)
+            if(to.name === "YohoGoods" || to.name === "YohoGoodsList") {
+                this.$route.meta.isScroll = document.getElementsByClassName("home-view")[0].getElementsByClassName("scroll-container")[0].scrollTop
+            }
             next()
-        },
-        beforedeactivated() {
-
         },
         computed: {
             ...mapGetters([
@@ -235,6 +243,7 @@
         height: 44vw;
         margin: 0 3vw 10px 3vw;
         overflow: hidden;
+        background:#F5F7F6;
     }
     
     .brand-icon img {
@@ -252,6 +261,7 @@
     .brand-goods-icon {
         width: 30vw;
         height: 40vw;
+        background:#F5F7F6;
     }
     
     .brand-goods-name {

@@ -2,7 +2,7 @@
     <div class="cart-view">
         <div class="title-bar">购物车</div>
         <vue-put-to class="home-scroll-view" :top-load-method="refresh" :top-config="reduction" :bottom-load-method="loadmore" :bottom-config="loadcart">
-            <cell-swipe :right="adrSetItem" v-for="(item, index) in cartList" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data-id="item.pro_code_bar" :data-sku="item.pro_sku">
+            <cell-swipe :right="adrSetItem" v-for="(item, index) in cart" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data-id="item.pro_code_bar" :data-sku="item.pro_sku">
                 <cart-item :data="item" @removeCount="removeCount" @addCount="addCount" @checked="checked" :index="index"></cart-item>
             </cell-swipe>
             <!--<cart-item v-for="(item, index) in cart" :key="item.pro_code_bar + 'sku_' + item.pro_sku" :data="item" @removeCount="removeCount" @addCount="addCount" @checked="checked" :index="index"></cart-item>-->
@@ -15,13 +15,13 @@
                     <span>已选{{cartCount}}件</span>
                 </div>
             </label>
-            <div class="cart-bar-pay">结 算</div>
+            <div class="cart-bar-pay" @click="handlePay">结 算</div>
         </div>
     </div>
 </template>
 
 <script>
-    import { Toast, CellSwipe, MessageBox } from 'mint-ui'
+    import { Toast, CellSwipe, MessageBox, Indicator } from 'mint-ui'
     import TieltBar from '@/components/TitleBar'
     import CartItem from '@/components/CartItem'
     import vuePutTo from 'vue-pull-to'
@@ -41,8 +41,7 @@
                 adrSetItem: [{
                     content: '移除',
                     handler: this.remove
-                }],
-                cartList: []
+                }]
             }
         },
         components: {
@@ -56,6 +55,20 @@
 
         },
         methods: {
+            handlePay() {
+                let data = []
+                for(let i = 0, len = this.cart.length; i < len; i++) {
+                    if(this.cart[i].pro_check) {
+                        data.push(this.cart[i])
+                    }
+                }
+                this.$store.dispatch("order/createNewOrder", {
+                    order: data
+                })
+                this.$router.push({
+                    name: "YohoOrderConfirm"
+                })
+            },
             handleAllCheck() {
                 this.$store.commit("cart/allCheck")
             },
@@ -110,10 +123,20 @@
             }
         },
         activated() {
-            this.cartList = this.cart
+            if(this.cartRefresh) {
+                Indicator.open('加载中...')
+                this.$ajax.post(API.getCartList()).then(res => {
+                    if(res.code === 200) {
+                        this.$store.commit("cart/initCart", res.data)
+                        this.$store.commit("order/cartHandleRefresh")
+                    }
+                    Indicator.close()
+                })
+            }
         },
         computed: {
             ...mapGetters([
+                'cartRefresh',
                 'cartPrice',
                 'cartCount',
                 'allCheck',

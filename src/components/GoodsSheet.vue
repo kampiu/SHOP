@@ -101,7 +101,7 @@
                     })
                     return
                 }
-                let data = {
+                let data = [{
                     pro_code_bar: this.data.pro_code_bar,
                     pro_attr: [this.data.pro_sizeTable[this.colorIndex].color, this.data.pro_sizeTable[this.colorIndex].attr[this.sizeIndex].size],
                     pro_num: this.param.num,
@@ -110,15 +110,10 @@
                     pro_name: this.data.pro_name,
                     pro_price: this.data.pro_price,
                     pro_brand: this.data.pro_brand
-                }
-                let id = new Date().getTime() + this.crypt(6)
-                console.log(data)
-                this.$store.dispatch("order/createNewOrder",{order:data,id:new Date().getTime() + this.crypt(6)})
+                }]
+                this.$store.dispatch("order/createNewOrder",{order:data})
                 this.$router.push({
-                    name: "YohoOrderConfirm",
-                    params: {
-                        id: id
-                    }
+                    name: "YohoOrderConfirm"
                 })
             },
             acionSheet() {
@@ -173,6 +168,7 @@
         left: 0;
         top: 0;
         z-index: 2000;
+        overflow: hidden;
     }
     
     .goods-sheet-mask {
@@ -229,7 +225,6 @@
         position: absolute;
         left: 5vw;
         top: -12vw;
-        background: pink;
         background-size: cover;
         background-position: center center;
         background-repeat: no-repeat;

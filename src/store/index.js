@@ -15,6 +15,7 @@ const Store = new Vuex.Store({
 		cate: state => state.common.cate,
 		brandList: state => state.common.brandList,
 		wechat: state => state.common.wechat,
+		coupons: state => state.common.coupons,
 		
 		cart: state => state.cart.cart,
 		collect: state => state.cart.collect,
@@ -40,7 +41,8 @@ const Store = new Vuex.Store({
 		adrSelect: state => state.address.adrSelect,
 		
 		orderList: state => state.order.orderList,
-		createOrder: state => state.order.createOrder
+		createOrder: state => state.order.createOrder,
+		cartRefresh: state => state.order.cartRefresh
 	},
 	mutations: {
 		

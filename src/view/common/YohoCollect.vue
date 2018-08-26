@@ -1,10 +1,12 @@
 <template>
-    <div class="collect-view">
-        <tielt-bar title="收藏" :back="true"></tielt-bar>
-        <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
-            <collect-item v-for="(item, index) in collect" :key="'collect' + item.pro_code_bar" :data="item"></collect-item>
-        </vue-put-to>
-    </div>
+    <transition name="slide-left">
+        <div class="collect-view">
+            <tielt-bar title="收藏" :back="true"></tielt-bar>
+            <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
+                <collect-item v-for="(item, index) in collect" :key="'collect' + item.pro_code_bar" :data="item"></collect-item>
+            </vue-put-to>
+        </div>
+    </transition>
 </template>
 
 <script>
@@ -15,7 +17,7 @@
     import {
         mapGetters
     } from 'vuex'
-    
+
     export default {
         name: "CollectView",
         data() {
@@ -55,10 +57,10 @@
 </script>
 
 <style>
-    .collect-view{
-        width:100vw;
-        height:100vh;
+    .collect-view {
+        width: 100vw;
+        height: 100vh;
         overflow: hidden;
-        padding-top:50px;
+        padding-top: 50px;
     }
 </style>

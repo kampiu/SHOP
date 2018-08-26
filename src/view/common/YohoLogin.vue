@@ -1,5 +1,5 @@
 <template>
-    <transition name="all-view-overlay">
+    <transition name="slide-left">
         <div class="login-view">
             <div class="title-nav-back" @click="backTo"></div>
             <div class="to-regpage" @click="toRegister">注册</div>

@@ -23,6 +23,7 @@ const app = new Vue({
 		initApp() {
 			console.log("初始化YOHO！")
 			this.$store.dispatch("user/initToken")
+			this.$store.commit("order/getNewOrder")
 		}
 	},
 	watch: {

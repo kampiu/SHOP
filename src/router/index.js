@@ -31,11 +31,11 @@ const YohoOrderConfirm = () =>
 
 //address-box
 const YohoAddress = () =>
-	import('@/view/Address/addressList')
+	import('@/view/Address/YohoAddressList')
 const YohoAddressEdit = () =>
-	import('@/view/Address/addressEdit')
+	import('@/view/Address/YohoAddressEdit')
 const YohoAddressMap = () =>
-	import('@/view/Address/addressMap')
+	import('@/view/Address/YohoAddressMap')
 
 //common
 const YohoCoupon = () =>
@@ -207,7 +207,7 @@ const router =  new Router({
 			requireAuth: true
 		}
 	}, {
-		path: '/order/confirm/:id',
+		path: '/confirm',
 		name: 'YohoOrderConfirm',
 		component: YohoOrderConfirm,
 		meta: {

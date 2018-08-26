@@ -1,5 +1,5 @@
 <template>
-    <div class="personal-view">
+    <div class="order-info-view">
         <tielt-bar title="订单详情" :back="true"></tielt-bar>
         <vue-put-to class="order-view-scroll" :bottom-load-method="loadmore" :bottom-config="scrollConfigBottom" :top-load-method="refresh" :top-config="scrollConfigTop">
             
@@ -46,7 +46,7 @@
 </script>
 
 <style>
-    .personal-view .order-view-scroll {
+    .order-info-view .order-view-scroll {
         height: 100vh !important;
         padding: 0 2vw;
         background: #F8F8F8;
