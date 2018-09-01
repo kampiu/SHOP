@@ -34,7 +34,7 @@ const userStore = {
 						}
 						ajax.post(API.getCollect()).then(res => {
 							if(res.code === 200) {
-								this.commit("cart/initCollect",res.data.col_list)
+								this.commit("cart/initCollect",res.result.col_list)
 							}
 						})
 					})

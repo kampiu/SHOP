@@ -216,7 +216,6 @@
             initData() {
                 this.address = this.userAddress.length > 1 ? this.userAddress[0] : {}
                 this.goods = this.createOrder.order || JSON.parse(localStorage.getItem("yoyo_order_confirm"))
-                console.log(this.goods)
             },
             refresh(loaded) {
                 loaded('done')

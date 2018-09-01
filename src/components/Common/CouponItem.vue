@@ -76,22 +76,26 @@
         color: #FFF;
         position: relative;
     }
-    .coupon-nav::before,.coupon-nav::after{
+    
+    .coupon-nav::before,
+    .coupon-nav::after {
         content: "";
-        background:#FFF;
-        border:1px solid #E6E6E6;
-        width:16px;
-        height:16px;
+        background: #EFEFEF;
+        border: 1px solid #E6E6E6;
+        width: 16px;
+        height: 16px;
         border-radius: 50%;
-        position:absolute;
-        left:28vw;
+        position: absolute;
+        left: 28vw;
         z-index: 100;
     }
-    .coupon-nav::before{
-        top:-8px;
+    
+    .coupon-nav::before {
+        top: -8px;
     }
-    .coupon-nav::after{
-        bottom:-8px;
+    
+    .coupon-nav::after {
+        bottom: -8px;
     }
     
     .coupon-price {
@@ -207,5 +211,10 @@
         border-left: .533333vw solid #fff;
         transform: rotate(-45deg);
         z-index: 300;
+    }
+    
+    .mint-switch-input:checked+.mint-switch-core {
+        background-color: #D0021B !important;
+        border-color: #D0021B !important;
     }
 </style>

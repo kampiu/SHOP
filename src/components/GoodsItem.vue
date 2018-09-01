@@ -6,12 +6,16 @@
             </div>
             <div class="goods-name font-break">{{data.pro_name}}</div>
         </router-link>
-        <div class="goods-price">￥{{data.pro_price}}<span class="goods-add-cart"></span></div>
+        <div class="goods-price">￥{{data.pro_price}}<span :class="isCollect ? 'goods-add-collect-active' : 'goods-add-collect'" @click="addCollect"></span></div>
     </div>
 </template>
 
 <script>
     import { Lazyload } from 'mint-ui'
+    import API from "@/util/api"
+    import {
+        mapGetters
+    } from 'vuex'
 
     export default {
         name: "GoodsItem",
@@ -23,6 +27,36 @@
         },
         components: {
             Lazyload
+        },
+        methods: {
+            addCollect(){
+                this.$ajax.post((this.isCollect ? API.removeCollect : API.addCollect)(),{id: this.data.pro_code_bar}).then(res => {
+                    console.log("收藏",res)
+                    if(res.code === 200){
+                        this.$store.commit("cart/initCollect", res.data)
+                    }else{
+                        Toast({
+                            message: res.msg,
+                            duration: 800
+                        })
+                    }
+                }).catch(err => {
+                    console.log("添加收藏失败",err)
+                })
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'collect'
+            ]),
+            isCollect(){
+                for(let i = 0,len = this.collect.length;i < len;i++){
+                    if(this.data.pro_code_bar === this.collect[i].pro_code_bar){
+                        return true
+                    }
+                }
+                return false
+            }
         }
     }
 </script>
@@ -77,23 +111,18 @@
         margin:4px 0;
     }
     
-    .goods-add-cart {
+    .goods-add-collect,.goods-add-collect-active{
         width: 16px;
         height: 16px;
         display: inline-block;
-        background-image: url('../assets/collect.png');
         background-repeat: no-repeat;
         background-position: center center;
         background-size: 100% auto;
     }
-    
-    .goods-add-cart-active {
-        width: 16px;
-        height: 16px;
-        display: inline-block;
+    .goods-add-collect{
+        background-image: url('../assets/collect.png');
+    }
+    .goods-add-collect-active {
         background-image: url('../assets/collect_active.png');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 100% auto;
     }
 </style>

@@ -1,8 +1,8 @@
 <template>
     <div id="app">
-            <keep-alive>
-                <router-view class="index-box"></router-view>
-            </keep-alive>
+        <keep-alive>
+            <router-view class="index-box"></router-view>
+        </keep-alive>
     </div>
 </template>
 
@@ -107,12 +107,13 @@
         height: 100%;
     }
     
-    .slide-right-enter,.slide-right-leave-active{
+    .slide-right-enter,
+    .slide-right-leave-active {
         opacity: 0;
         transform: translate3d(-100%, 0, 0)
     }
     
-    .slide-left-enter{
+    .slide-left-enter {
         opacity: 0;
         transform: translate3d(100%, 0, 0)
     }

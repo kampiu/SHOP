@@ -78,6 +78,9 @@
         animation-fill-mode: forwards;
         animation-timing-function: ease-in;
     }
+    .sheet-component .payment-item{
+        background:#FFF !important;
+    }
     .mask-show{
         animation-name: maskShow;
     }

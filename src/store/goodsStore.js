@@ -28,7 +28,7 @@ const commonStore = {
 			state.pages = pages
 		},
 		initGoods(state, list){
-			state.goods = Array.from(new Set(list))
+			state.goods = Array.isArray(list) ? Array.from(new Set(list)) : list
 		}
 	},
 	actions: {

@@ -43,10 +43,11 @@
             return {
                 load: config.loadmore,
                 reduction: config.refresh,
-                cate: [],
                 cateType: "全部",
+                cate: [],
                 noData: false,
-                noMore: false
+                noMore: false,
+                isRefresh:true
             }
         },
         components: {
@@ -58,7 +59,10 @@
         },
         beforeRouteEnter: (to, from, next) => {
             next(vm => {
-                if(vm.refresh) {
+                if(to.meta.isScroll && to.meta.isScroll > 0 && from.name === "YohoGoods" ){
+                    document.getElementsByClassName("goodslist-view")[0].getElementsByClassName("scroll-container")[0].scrollTop = to.meta.isScroll
+                }
+                if(vm.isRefresh) {
                     vm.initData()
                 }
             })
@@ -78,6 +82,7 @@
                         if(res.result.length < 20) {
                             this.noMore = true
                         }
+                        this.isRefresh = false
                     }
                     callback && callback()
                 })
@@ -102,6 +107,9 @@
                 })
             },
             getCate() {
+                if(this.cate.length > 0){
+                    return
+                }
                 this.$ajax.get(API.getCate("all")).then(res => {
                     if(res.code === 200) {
                         this.cate = res.result
@@ -132,6 +140,9 @@
 
         },
         beforeRouteLeave(to, from, next) {
+            if(to.name === "YohoGoods") {
+                this.$route.meta.isScroll = document.getElementsByClassName("goodslist-view")[0].getElementsByClassName("scroll-container")[0].scrollTop
+            }
             this.noData = false
             this.noMore = false
             next()

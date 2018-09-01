@@ -2,15 +2,25 @@
     <div class="goods-bar">
         <router-link to="/cart" class="goods-bar-cart">购物车</router-link>
         <div class="goods-bar-brand">牌子</div>
-        <router-link to="/collect" class="goods-bar-collect">收藏</router-link>
+        <div :class="isCollect ? 'goods-bar-collect-active' : 'goods-bar-collect'" @click="addCollect">收藏</div>
         <div class="goods-bar-buy" @click="addCart">立即购买</div>
         <div class="goods-bar-addCart" @click="addCart">加入购物车</div>
     </div>
 </template>
 
 <script>
+    import API from "@/util/api"
+    import {
+        mapGetters
+    } from 'vuex'
+    
     export default {
         name: "goods-bar",
+        props:{
+            data:{
+                type: Object
+            }
+        },
         data() {
             return {
 
@@ -28,6 +38,33 @@
             },
             addCart(){
                 this.$emit("toggleSheet")
+            },
+            addCollect(){
+                this.$ajax.post((this.isCollect ? API.removeCollect : API.addCollect)(),{id: this.data.pro_code_bar}).then(res => {
+                    if(res.code === 200){
+                        this.$store.commit("cart/initCollect", res.result)
+                    }else{
+                        Toast({
+                            message: res.msg,
+                            duration: 800
+                        })
+                    }
+                }).catch(err => {
+                    console.log("添加收藏失败",err)
+                })
+            }
+        },
+        computed: {
+            ...mapGetters([
+                'collect'
+            ]),
+            isCollect(){
+                for(let i = 0,len = this.collect.length;i < len;i++){
+                    if(this.data.pro_code_bar === this.collect[i].pro_code_bar){
+                        return true
+                    }
+                }
+                return false
             }
         },
         filters: {
@@ -50,7 +87,7 @@
         justify-content: space-between;
         padding:0 12px;
     }
-    .goods-bar-cart,.goods-bar-brand,.goods-bar-collect{
+    .goods-bar-cart,.goods-bar-brand,.goods-bar-collect,.goods-bar-collect-active{
         width:36px;
         height:40px;
         background-size:78% auto;
@@ -74,6 +111,12 @@
         background-position: center 12%;
         background-image: url("../assets/collect.png");
     }
+    .goods-bar-collect-active{
+        background-size:60% auto;
+        background-position: center 12%;
+        background-image: url("../assets/collect_active.png");
+    }
+    
     .goods-bar-buy,.goods-bar-addCart{
         width:110px;
         height:40px;

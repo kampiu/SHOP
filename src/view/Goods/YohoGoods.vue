@@ -23,7 +23,7 @@
                     <img v-for="(item, index) in info.pro_attrInfo" :key="item" v-lazy="item + '!_400x400'" alt="" />
                 </div>
             </vue-put-to>
-            <goods-bar @toggleSheet="toggleSheet"></goods-bar>
+            <goods-bar @toggleSheet="toggleSheet" :data="info"></goods-bar>
             <goods-sheet :data="info" @toggleSheet="toggleSheet" :show="sheet"></goods-sheet>
             <goods-coupon @toggleCoupon="toggleCoupon" :show="coupon"></goods-coupon>
         </div>
@@ -75,6 +75,9 @@
         beforeRouteEnter: (to, from, next) => {
             next(vm => {
                 if(vm.gid !== to.params.id) {
+                    vm.info = {
+                        pro_realAttr: []
+                    }
                     vm.getInfo(to.params.id)
                 }
             })
